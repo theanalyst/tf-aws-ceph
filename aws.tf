@@ -94,7 +94,7 @@ resource "aws_security_group" "internet" {
 }
 
 resource "aws_instance" "salt-master" {
-  ami = "ami-b7b4fedd"
+  ami = "{vars.nat_ami}"
   instance_type = "t2.micro"
   tags {
     Name = "terraform-test"
