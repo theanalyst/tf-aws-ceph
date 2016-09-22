@@ -57,7 +57,7 @@ resource "aws_security_group" "default_vpc" {
   }
 }
 
-resource "aws_security_group" "ssh_http" {
+resource "aws_security_group" "http_proxy" {
   name = "ssh"
   vpc_id = "${aws_vpc.main.id}"
 
@@ -72,6 +72,13 @@ resource "aws_security_group" "ssh_http" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -100,7 +107,7 @@ resource "aws_instance" "salt-master" {
     Name = "terraform-test"
   }
   subnet_id = "${aws_subnet.public.id}"
-  security_groups = ["${aws_security_group.default_vpc.id}", "${aws_security_group.ssh_http.id}"]
+  vpc_security_group_ids = ["${aws_security_group.default_vpc.id}", "${aws_security_group.http_proxy.id}"]
   key_name = "abhishekl"
   depends_on = ["aws_internet_gateway.default"]
   tags = {
