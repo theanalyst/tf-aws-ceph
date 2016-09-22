@@ -17,3 +17,7 @@ variable "private_subnet_cidr" {
 variable "key_name" {
   "default" = "abhishekl"
 }
+
+variable "ceph_mon_count" {
+  "default" = "3"
+}

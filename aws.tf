@@ -149,7 +149,7 @@ resource "aws_route_table_association" "private" {
 }
 
 resource "aws_instance" "ceph-mon" {
-  count = 1
+  count = "${var.ceph_mon_count}"
   ami = "${var.nat_ami}"
   instance_type = "t2.small"
   subnet_id = "${aws_subnet.private.id}"
